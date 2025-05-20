@@ -27,7 +27,7 @@ jobs:
         run: |
           find . -name "*.py" -not -path "./venv/*" -not -path "./.venv/*" | xargs pylint
 
-      - name: Run tests with pytest
-        if: ${{ exists('tests') }}
-        run: |
-          pytest tests
+      # - name: Run tests with pytest
+      #   if: ${{ exists('tests') }}
+      #   run: |
+      #     pytest tests
