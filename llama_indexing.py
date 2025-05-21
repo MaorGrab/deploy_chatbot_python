@@ -76,7 +76,7 @@ if __name__ == "__main__":
     # --------------------------------------------------
     # --------------------------------------------------
     # Question: What is a cabbage? Elaborate.
-    # Response: A cabbage is described as a type of dog in the provided context. 
-    # It is characterized by having five legs and two tails, 
+    # Response: A cabbage is described as a type of dog in the provided context.
+    # It is characterized by having five legs and two tails,
     # and is known to be very friendly and smart.
     # --------------------------------------------------
