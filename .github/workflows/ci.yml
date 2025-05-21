@@ -5,6 +5,9 @@ on:
   pull_request:
   workflow_dispatch:
 
+env:
+  PYTHON_VERSION: '3.13.3'
+
 jobs:
   pre_job:
     continue-on-error: true
@@ -32,14 +35,14 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: ${{ env.PYTHON_VERSION }}
 
       - name: Restore cached virtual environment
         uses: actions/cache/restore@v4
         id: cache-venv-restore
         with:
           path: .venv
-          key: venv-${{ runner.os }}-${{ steps.setup_python.outputs.python-version }}-${{ hashFiles('requirements.txt') }}
+          key: venv-${{ runner.os }}-${{ env.PYTHON_VERSION }}-${{ hashFiles('requirements.txt') }}
 
       - name: Set up virtual environment
         run: |
@@ -59,7 +62,7 @@ jobs:
         uses: actions/cache/save@v4
         with:
           path: .venv
-          key: venv-${{ runner.os }}-${{ steps.setup_python.outputs.python-version }}-${{ hashFiles('requirements.txt') }}
+          key: venv-${{ runner.os }}-${{ env.PYTHON_VERSION }}-${{ hashFiles('requirements.txt') }}
 
   lint:
     needs: build
@@ -71,14 +74,14 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: ${{ env.PYTHON_VERSION }}
 
       - name: Restore cached virtual environment
         uses: actions/cache/restore@v4
         id: cache-venv-restore
         with:
           path: .venv
-          key: venv-${{ runner.os }}-${{ steps.setup_python.outputs.python-version }}-${{ hashFiles('requirements.txt') }}
+          key: venv-${{ runner.os }}-${{ env.PYTHON_VERSION }}-${{ hashFiles('requirements.txt') }}
 
       - name: Set up virtual environment
         run: |

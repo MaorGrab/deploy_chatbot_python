@@ -5,3 +5,5 @@ llama-index
 sentence_transformers
 pylint
 pytest
+fastapi
+uvicorn
