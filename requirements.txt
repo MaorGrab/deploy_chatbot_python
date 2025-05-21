@@ -1,2 +1,5 @@
 python-dotenv
 openai
+pypdf
+llama-index
+sentence_transformers
