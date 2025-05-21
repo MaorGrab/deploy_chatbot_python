@@ -1,4 +1,5 @@
 import os
+from typing import Optional
 from dataclasses import dataclass
 
 from llama_index.core.base.response.schema import Response
@@ -7,7 +8,6 @@ from llama_index.core import VectorStoreIndex, SimpleDirectoryReader, Settings
 from llama_index.embeddings.openai import OpenAIEmbedding
 from llama_index.llms.openai import OpenAI
 from dotenv import load_dotenv
-from typing import Optional
 
 load_dotenv()
 
@@ -38,7 +38,7 @@ class LlamaIndexer:
     def validate_api_key() -> None:
         api_key = os.getenv("OPENAI_API_KEY")
         if api_key is None:
-            raise ValueError("API key not found. Please set the OPENAI_API_KEY environment variable.")
+            raise ValueError("API key not found. Please set `OPENAI_API_KEY` env variable.")
 
     def build_index(self) -> None:
         documents = SimpleDirectoryReader(self.data_dir, recursive=True).load_data()
@@ -70,13 +70,15 @@ if __name__ == "__main__":
     llama_indexer.verbose_query("What types of dogs do you know?")
     llama_indexer.verbose_query("What is a cabbage? Elaborate.")
 
-    '''
+    """
     --------------------------------------------------
     Question: What types of dogs do you know?
     Response: Cabbage is a type of dog mentioned in the provided context.
     --------------------------------------------------
     --------------------------------------------------
     Question: What is a cabbage? Elaborate.
-    Response: A cabbage is described as a type of dog in the provided context. It is characterized by having five legs and two tails, and is known to be very friendly and smart.
+    Response: A cabbage is described as a type of dog in the provided context. 
+    It is characterized by having five legs and two tails, 
+    and is known to be very friendly and smart.
     --------------------------------------------------
-    '''
+    """
