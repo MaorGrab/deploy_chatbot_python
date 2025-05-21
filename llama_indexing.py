@@ -70,15 +70,13 @@ if __name__ == "__main__":
     llama_indexer.verbose_query("What types of dogs do you know?")
     llama_indexer.verbose_query("What is a cabbage? Elaborate.")
 
-    """
-    --------------------------------------------------
-    Question: What types of dogs do you know?
-    Response: Cabbage is a type of dog mentioned in the provided context.
-    --------------------------------------------------
-    --------------------------------------------------
-    Question: What is a cabbage? Elaborate.
-    Response: A cabbage is described as a type of dog in the provided context. 
-    It is characterized by having five legs and two tails, 
-    and is known to be very friendly and smart.
-    --------------------------------------------------
-    """
+    # --------------------------------------------------
+    # Question: What types of dogs do you know?
+    # Response: Cabbage is a type of dog mentioned in the provided context.
+    # --------------------------------------------------
+    # --------------------------------------------------
+    # Question: What is a cabbage? Elaborate.
+    # Response: A cabbage is described as a type of dog in the provided context. 
+    # It is characterized by having five legs and two tails, 
+    # and is known to be very friendly and smart.
+    # --------------------------------------------------
