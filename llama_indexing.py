@@ -19,9 +19,16 @@ class OpenAIConfig:
     temperature: float = 0.1
 
     def __post_init__(self) -> None:
+        self.validate_api_key()
         # Set custom LLM and embedding models
         Settings.llm = OpenAI(model=OpenAIConfig.model, temperature=OpenAIConfig.temperature)
         Settings.embed_model = OpenAIEmbedding(model=OpenAIConfig.embbedding_model)
+
+    @staticmethod
+    def validate_api_key() -> None:
+        api_key = os.getenv("OPENAI_API_KEY")
+        if api_key is None:
+            raise ValueError("API key not found. Please set `OPENAI_API_KEY` env variable.")
 
 @dataclass
 class LlamaIndexer:
@@ -31,29 +38,21 @@ class LlamaIndexer:
     query_engine: Optional[RetrieverQueryEngine] = None
 
     def __post_init__(self) -> None:
-        self.validate_api_key()
+        OpenAIConfig()
         self.build_index()
-
-    @staticmethod
-    def validate_api_key() -> None:
-        api_key = os.getenv("OPENAI_API_KEY")
-        if api_key is None:
-            raise ValueError("API key not found. Please set `OPENAI_API_KEY` env variable.")
 
     def build_index(self) -> None:
         documents = SimpleDirectoryReader(self.data_dir, recursive=True).load_data()
         self.index = VectorStoreIndex.from_documents(documents)
         self.query_engine = self.index.as_query_engine()
+        if not self.query_engine:
+            raise RuntimeError("Query engine is invalid. Check the index.")
 
     def query(self, question: str) -> Response:
-        if not self.query_engine:
-            raise RuntimeError("Index not built. Call build_index() first.")
         response: Response = self.query_engine.query(question)
         return response
 
     def save_index(self):
-        if not self.index:
-            raise RuntimeError("Index not built. Call build_index() first.")
         self.index.storage_context.persist(self.index_storage)
 
     def verbose_query(self, question: str) -> None:
@@ -62,7 +61,6 @@ class LlamaIndexer:
         print(f"Question: {question}")
         print(f"Response: {response}")
         print('-' * 50)
-
 
 
 if __name__ == "__main__":
