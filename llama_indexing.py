@@ -19,7 +19,7 @@ class OpenAIConfig:
     temperature: float = 0.1
 
     def __post_init__(self) -> None:
-        # Set custom LLM and embedding models 
+        # Set custom LLM and embedding models
         Settings.llm = OpenAI(model=OpenAIConfig.model, temperature=OpenAIConfig.temperature)
         Settings.embed_model = OpenAIEmbedding(model=OpenAIConfig.embbedding_model)
 
