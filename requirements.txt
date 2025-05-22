@@ -7,3 +7,6 @@ pylint
 pytest
 fastapi
 uvicorn
+dash
+dash-bootstrap-components
+requests
