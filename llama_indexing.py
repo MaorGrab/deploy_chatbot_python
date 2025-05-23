@@ -1,10 +1,10 @@
 import os
-from typing import Optional
-from dataclasses import dataclass
+from typing import Union
+from dataclasses import dataclass, field
 
 from llama_index.core.base.response.schema import Response
 from llama_index.core.query_engine.retriever_query_engine import RetrieverQueryEngine
-from llama_index.core import VectorStoreIndex, SimpleDirectoryReader, Settings
+from llama_index.core import VectorStoreIndex, SimpleDirectoryReader
 from llama_index.embeddings.openai import OpenAIEmbedding
 from llama_index.llms.openai import OpenAI
 from dotenv import load_dotenv
@@ -17,12 +17,13 @@ class OpenAIConfig:
     model: str = "gpt-4o-mini"
     embbedding_model: str = "text-embedding-3-small"
     temperature: float = 0.1
+    llm: Union[OpenAI, None] = field(default=None, init=False)
+    embedding_model: Union[OpenAIEmbedding, None] = field(default=None, init=False)
 
     def __post_init__(self) -> None:
         self.validate_api_key()
-        # Set custom LLM and embedding models
-        Settings.llm = OpenAI(model=OpenAIConfig.model, temperature=OpenAIConfig.temperature)
-        Settings.embed_model = OpenAIEmbedding(model=OpenAIConfig.embbedding_model)
+        self.llm = OpenAI(model=self.model, temperature=self.temperature)
+        self.embedding_model = OpenAIEmbedding(model=self.embbedding_model)
 
     @staticmethod
     def validate_api_key() -> None:
@@ -32,18 +33,22 @@ class OpenAIConfig:
 
 @dataclass
 class LlamaIndexer:
-    data_dir: Optional[str] = "data"
-    index_storage: Optional[str] = "index_storage"
-    index: Optional[VectorStoreIndex] = None
-    query_engine: Optional[RetrieverQueryEngine] = None
+    data_dir: str = "data"
+    index_storage: str = "index_storage"
+    index: Union[VectorStoreIndex, None] = field(default=None, init=False)
+    query_engine: Union[RetrieverQueryEngine, None] = field(default=None, init=False)
+    config: OpenAIConfig = field(default_factory=OpenAIConfig, init=False)
 
     def __post_init__(self) -> None:
-        OpenAIConfig()
         self.build_index()
 
     def build_index(self) -> None:
         documents = SimpleDirectoryReader(self.data_dir, recursive=True).load_data()
-        self.index = VectorStoreIndex.from_documents(documents)
+        self.index = VectorStoreIndex.from_documents(
+            documents=documents,
+            llm=self.config.llm,
+            embed_model=self.config.embedding_model,
+        )
         self.query_engine = self.index.as_query_engine()
         if not self.query_engine:
             raise RuntimeError("Query engine is invalid. Check the index.")
