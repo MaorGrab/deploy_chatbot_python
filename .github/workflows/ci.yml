@@ -87,6 +87,7 @@ jobs:
       - name: Set up virtual environment
         run: |
           python -m venv .venv
+          source .venv/bin/activate
           echo "VIRTUAL_ENV=${{ github.workspace }}/.venv" >> $GITHUB_ENV
           echo "${{ github.workspace }}/.venv/bin" >> $GITHUB_PATH
 
