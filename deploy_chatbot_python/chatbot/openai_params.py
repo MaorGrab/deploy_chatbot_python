@@ -2,7 +2,7 @@ from dataclasses import dataclass
 import os
 import yaml
 
-from src.config.constants import Config
+from deploy_chatbot_python.config.constants import Config
 
 
 @dataclass

@@ -1,6 +1,6 @@
 from pathlib import Path
 from dataclasses import dataclass
-from src import ROOT_DIR, PKG_DIR
+from deploy_chatbot_python import ROOT_DIR, PKG_DIR
 
 class Data:
     _DATA_PATH: Path = ROOT_DIR / 'data'

@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from fastapi import FastAPI
 
-from src.chatbot.index_manager import IndexManager
+from deploy_chatbot_python.chatbot.index_manager import IndexManager
 
 
 class Query(BaseModel):

@@ -5,8 +5,8 @@ from typing import Union
 from dataclasses import dataclass, field
 from llama_index.core import StorageContext, load_index_from_storage
 
-from src.chatbot.llama_indexer import LlamaIndexer
-import src.config.constants as constants
+from deploy_chatbot_python.chatbot.llama_indexer import LlamaIndexer
+import deploy_chatbot_python.config.constants as constants
 
 @dataclass
 class IndexManager:
