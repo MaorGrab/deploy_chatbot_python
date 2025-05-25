@@ -1,8 +1,7 @@
 from pydantic import BaseModel
 from fastapi import FastAPI
-import uvicorn
 
-from llama_indexing import LlamaIndexer
+from deploy_chatbot_python.chatbot.index_manager import IndexManager
 
 
 class Query(BaseModel):
@@ -16,9 +15,6 @@ async def read_root():
 
 @app.post("/query")
 async def post_query(query: Query):
-    llama_indexer = LlamaIndexer()
-    response = llama_indexer.query(query.text)
+    index_manager = IndexManager()
+    response = index_manager.llama_indexer._query(query.text)
     return {"response": response}
-
-if __name__ == "__main__":
-    uvicorn.run("server:app", host="localhost", port=8000, reload=True)
