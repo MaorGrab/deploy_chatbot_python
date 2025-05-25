@@ -55,7 +55,7 @@ jobs:
         run: |
           source .venv/bin/activate
           pip install --upgrade pip
-          pip install -e .
+          pip install -e .  # Install the package in editable mode
           pip install -r requirements.txt
 
       - name: Save virtual environment to cache
@@ -89,14 +89,6 @@ jobs:
           python -m venv .venv
           echo "VIRTUAL_ENV=${{ github.workspace }}/.venv" >> $GITHUB_ENV
           echo "${{ github.workspace }}/.venv/bin" >> $GITHUB_PATH
-
-      - name: Install dependencies
-        # if: steps.cache-venv-restore.outputs.cache-hit != 'true'
-        run: |
-          source .venv/bin/activate
-          pip install --upgrade pip
-          pip install -e .
-          pip install -r requirements.txt
 
       - name: Lint with pylint
         run: |
