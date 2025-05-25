@@ -13,12 +13,12 @@ license-files = ["LICENSE"]
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["deploy_chatbot_python"]
+include = ["src"]
 
 [project.urls]
 "Homepage" = "https://github.com/MaorGrab/deploy_chatbot_python"
 "Repository" = "https://github.com/MaorGrab/deploy_chatbot_python"
 
 [build-system]
-requires = ["setuptools>=42", "wheel"]
+requires = ["setuptools>=42"]
 build-backend = "setuptools.build_meta"

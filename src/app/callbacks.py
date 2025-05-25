@@ -4,7 +4,7 @@ import dash
 from dash import callback, Input, Output, State
 import requests
 
-from deploy_chatbot_python.app.layout import make_chat_element
+from src.app.layout import make_chat_element
 
 
 # Callback to handle user input and update chat history with user's message and placeholder

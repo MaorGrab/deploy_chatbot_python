@@ -1,8 +1,8 @@
 from typing import Union
 from dataclasses import dataclass, field
 
-from deploy_chatbot_python.chatbot.openai_params import OpenAIParams
-import deploy_chatbot_python.config.constants as constants
+from src.chatbot.openai_params import OpenAIParams
+import src.config.constants as constants
 
 from llama_index.core.base.response.schema import Response
 from llama_index.core import VectorStoreIndex, SimpleDirectoryReader
