@@ -1,0 +1,24 @@
+[project]
+name = "deploy_chatbot_python"
+version = "0.1"
+description = "A chatbot project using Llama indexing and OpenAI"
+authors = [
+    { name="Maor Grab", email="maor.grab@gmail.com" }
+]
+readme = "README.md"
+requires-python = ">=3.8"
+keywords = ["chatbot", "llama-index", "openai", "ai"]
+license = "MIT"
+license-files = ["LICENSE"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["deploy_chatbot_python"]
+
+[project.urls]
+"Homepage" = "https://github.com/MaorGrab/deploy_chatbot_python"
+"Repository" = "https://github.com/MaorGrab/deploy_chatbot_python"
+
+[build-system]
+requires = ["setuptools>=42"]
+build-backend = "setuptools.build_meta"
