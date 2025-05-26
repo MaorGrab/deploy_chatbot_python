@@ -2,7 +2,7 @@ from dataclasses import dataclass
 import os
 import yaml
 
-from deploy_chatbot_python.config.constants import Config
+from deploy_chatbot_python.config.constants import CONFIG_PATH
 
 
 @dataclass
@@ -16,7 +16,7 @@ class OpenAIParams:
 
     @classmethod
     def from_config_yaml(cls) -> "OpenAIParams":
-        with open(Config.PATH, "r") as file:
+        with open(CONFIG_PATH, "r") as file:
             config = yaml.safe_load(file)
         return cls(**config['openai'])
 

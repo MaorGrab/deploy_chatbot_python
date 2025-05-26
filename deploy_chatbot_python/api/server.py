@@ -2,19 +2,20 @@ from pydantic import BaseModel
 from fastapi import FastAPI
 
 from deploy_chatbot_python.chatbot.index_manager import IndexManager
+import deploy_chatbot_python.config.constants as constants
 
 
 class Query(BaseModel):
     text: str
 
-app = FastAPI()
+api = FastAPI()
 
-@app.get("/")
+@api.get("/")
 async def read_root():
     return {"message": "Hello World"}
 
-@app.post("/query")
+@api.post(f"/{constants.API_POST_ENDPOINT}")
 async def post_query(query: Query):
     index_manager = IndexManager()
-    response = index_manager.llama_indexer._query(query.text)
+    response: str = index_manager.query(query.text)
     return {"response": response}

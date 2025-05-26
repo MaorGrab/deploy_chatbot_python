@@ -2,20 +2,26 @@ from pathlib import Path
 from dataclasses import dataclass
 from deploy_chatbot_python import ROOT_DIR, PKG_DIR
 
-class Data:
-    _DATA_PATH: Path = ROOT_DIR / 'data'
-    TRAINING_DATA_PATH: Path = _DATA_PATH / 'training'
-    TRAINING_DATA_HASH_PATH: Path = _DATA_PATH / 'training_data_hash.txt'
-    INDEX_STORE_PATH: Path = _DATA_PATH / 'index_storage'
+# Data paths
+DATA_PATH = ROOT_DIR / 'data'
+TRAINING_DATA_PATH = DATA_PATH / 'training'
+TRAINING_DATA_HASH_PATH = DATA_PATH / 'training_data_hash.txt'
+INDEX_STORE_PATH = DATA_PATH / 'index_storage'
 
-class Config:
-    _NAME: str = 'config.yaml'
-    PATH: Path = PKG_DIR / 'config' / _NAME
+# Config path
+CONFIG_NAME = 'config.yaml'
+CONFIG_PATH = PKG_DIR / 'config' / CONFIG_NAME
 
-# @dataclass
-# class Directory:
-#     NAME: str
+# API
+API_HOST_ADDRESS = '127.0.0.1'
+API_HOST_PORT = 8000
+API_POST_ENDPOINT = 'query'
+API_POST_ENDPOINT_URL = f"http://{API_HOST_ADDRESS}:{API_HOST_PORT}/{API_POST_ENDPOINT}"
 
-    
-#     def __post_init__(self):
-#         self.PATH: Path = 
+# APP
+APP_TITLE = "Chatbot Dashboard"
+DASHBOARD_TITLE = "🤖 Chatbot Interface"
+BOT_PLACEHOLDER_MESSAGE = 'Typing...'
+USER_PLACEHOLDER_MESSAGE = "Type your message here..."
+SEND_BUTTON_TEXT = 'Send'
+POST_REQUEST_TIMEOUT = 60  # seconds

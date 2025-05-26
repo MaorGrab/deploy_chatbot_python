@@ -31,7 +31,7 @@ class LlamaIndexer:
 
     def _build_index(self) -> None:
         documents = SimpleDirectoryReader(
-            constants.Data.TRAINING_DATA_PATH,
+            constants.TRAINING_DATA_PATH,
             recursive=True
         ).load_data()
         self.index = VectorStoreIndex.from_documents(

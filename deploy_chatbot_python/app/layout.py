@@ -1,10 +1,12 @@
 from dash import html, dcc
 import dash_bootstrap_components as dbc
 
+import deploy_chatbot_python.config.constants as constants
+
 
 layout = dbc.Container(
     [
-        html.H2("🤖 Chatbot Interface", className="text-center my-4"),
+        html.H2(constants.DASHBOARD_TITLE, className="text-center my-4"),
         dbc.Card(
             dbc.CardBody(
                 [
@@ -24,13 +26,13 @@ layout = dbc.Container(
                         [
                             dcc.Input(
                                 id="user-input",
-                                placeholder="Type your message here...",
+                                placeholder=constants.USER_PLACEHOLDER_MESSAGE,
                                 type="text",
                                 debounce=True,
                                 style={"width": "90%"},
                             ),
                             dbc.Button(
-                                "Send",
+                                constants.SEND_BUTTON_TEXT,
                                 id="send-button",
                                 color="primary",
                                 n_clicks=0,
@@ -50,9 +52,23 @@ layout = dbc.Container(
     fluid=True,
 )
 
-def make_chat_element(msg: str, alignment: str) -> html.Div:
+def make_chat_element(message: str, text_align: str, bubble_color: str) -> html.Div:
     chat_element = html.Div(
-        f"{msg['sender'].capitalize()}: {msg['message']}",
-        style={"textAlign": alignment, "margin": "5px"},
-        )
+        html.Div(
+            message,
+            style={
+                "backgroundColor": bubble_color,
+                "padding": "10px 15px",
+                "borderRadius": "15px",
+                "maxWidth": "60%",
+                "display": "inline-block",
+                "whiteSpace": "pre-wrap",
+                "boxShadow": "0px 1px 2px rgba(0,0,0,0.2)",
+            },
+        ),
+        style={
+            "textAlign": text_align,
+            "margin": "5px 10px",
+        },
+    )
     return chat_element
