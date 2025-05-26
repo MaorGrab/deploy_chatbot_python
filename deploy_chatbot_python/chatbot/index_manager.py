@@ -4,6 +4,7 @@ import hashlib
 from typing import Union
 from dataclasses import dataclass, field
 from llama_index.core import StorageContext, load_index_from_storage
+from llama_index.core.base.response.schema import Response
 
 from deploy_chatbot_python.chatbot.llama_indexer import LlamaIndexer
 import deploy_chatbot_python.config.constants as constants
@@ -53,7 +54,7 @@ class IndexManager:
             file.write(self._current_data_hash)
 
     def _rebuild_index(self):
-        self.llama_indexer.build_index()
+        self.llama_indexer.build_query_pipeline()
 
     def _save_index(self):
         self.llama_indexer.index.storage_context.persist(constants.Data.INDEX_STORE_PATH)
@@ -61,6 +62,16 @@ class IndexManager:
     def _load_index(self):
         storage_context = StorageContext.from_defaults(persist_dir=constants.Data.INDEX_STORE_PATH)
         self.llama_indexer.index = load_index_from_storage(storage_context)
+        self.llama_indexer.set_query_engine()
+
+    def query(self, question: str) -> Response:
+        if self.llama_indexer.query_engine is None:
+            raise ValueError("Query engine is not set.")
+        response: Response = self.llama_indexer.query_engine.query(question)
+        return response
+
 
 if __name__ == '__main__':
-    mgr = IndexManager()
+    index_manager = IndexManager()
+    print(index_manager.query("What types of dogs do you know?"))
+    # print(index_manager.query("What is a cabbage? Elaborate."))
