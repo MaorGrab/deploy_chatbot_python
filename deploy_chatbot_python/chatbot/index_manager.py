@@ -15,6 +15,7 @@ class IndexManager:
     _current_data_hash: Union[str, None] = field(default=None, init=False)
 
     def __post_init__(self):
+        print('index manager init')
         self._initialize()
 
     def _initialize(self):
