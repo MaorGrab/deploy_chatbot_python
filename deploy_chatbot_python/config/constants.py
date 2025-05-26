@@ -1,5 +1,3 @@
-from pathlib import Path
-from dataclasses import dataclass
 from deploy_chatbot_python import ROOT_DIR, PKG_DIR
 
 # Data paths

@@ -2,12 +2,12 @@ import json
 from dataclasses import dataclass
 
 import dash
-from dash import callback, Input, Output, State
+from dash import Input, Output, State
 import requests
 
 from deploy_chatbot_python.app.layout import make_chat_element
 from deploy_chatbot_python.api.server import Query
-import deploy_chatbot_python.config.constants as constants
+from deploy_chatbot_python.config import constants
 
 
 @dataclass

@@ -1,7 +1,7 @@
 from dash import html, dcc
 import dash_bootstrap_components as dbc
 
-import deploy_chatbot_python.config.constants as constants
+from deploy_chatbot_python.config import constants
 
 
 layout = dbc.Container(

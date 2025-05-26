@@ -1,13 +1,13 @@
 from typing import Union
 from dataclasses import dataclass, field
 
-from deploy_chatbot_python.chatbot.openai_params import OpenAIParams
-import deploy_chatbot_python.config.constants as constants
-
 from llama_index.core import VectorStoreIndex, SimpleDirectoryReader
 from llama_index.core.base.base_query_engine import BaseQueryEngine
 from llama_index.embeddings.openai import OpenAIEmbedding
 from llama_index.llms.openai import OpenAI
+
+from deploy_chatbot_python.chatbot.openai_params import OpenAIParams
+from deploy_chatbot_python.config import constants
 
 
 @dataclass
@@ -20,7 +20,7 @@ class LlamaIndexer:
     def __post_init__(self):
         openai_params = OpenAIParams.from_config_yaml()
         self._initialize_models_from_params(openai_params)
-    
+
     def _initialize_models_from_params(self, params: OpenAIParams) -> None:
         self.llm = OpenAI(model=params.model, temperature=params.temperature)
         self.embedding_model = OpenAIEmbedding(model=params.embedding_model)
@@ -43,7 +43,7 @@ class LlamaIndexer:
         if self.index is None:
             raise ValueError("Index is invalid.")
         if self.query_engine is not None:
-            raise ValueError("Query engine is already set.")  # TODO: log warning
+            raise ValueError("Query engine is already set.")  # TO-DO: log warning
         self.query_engine = self.index.as_query_engine(llm=self.llm)
 
 

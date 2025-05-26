@@ -7,7 +7,7 @@ from llama_index.core import StorageContext, load_index_from_storage
 from llama_index.core.base.response.schema import Response
 
 from deploy_chatbot_python.chatbot.llama_indexer import LlamaIndexer
-import deploy_chatbot_python.config.constants as constants
+from deploy_chatbot_python.config import constants
 
 @dataclass
 class IndexManager:
@@ -16,7 +16,7 @@ class IndexManager:
 
     def __post_init__(self):
         self._initialize()
-    
+
     def _initialize(self):
         self._compute_data_hash()
         if self._is_index_valid():
@@ -29,7 +29,7 @@ class IndexManager:
     def _is_index_valid(self) -> bool:
         saved_data_hash = self._load_data_hash()
         return self._current_data_hash == saved_data_hash
-    
+
     def _get_files_in_training_data_dir(self) -> dict:
         return {
             entry.path: entry.stat().st_mtime
@@ -42,15 +42,15 @@ class IndexManager:
         # Serialize dictionary with sorted keys to ensure consistency
         serialized: str = json.dumps(training_files, sort_keys=True)
         self._current_data_hash = hashlib.sha256(serialized.encode()).hexdigest()
-    
+
     def _load_data_hash(self) -> str:
         if not os.path.exists(constants.TRAINING_DATA_HASH_PATH):
             return ""
-        with open(constants.TRAINING_DATA_HASH_PATH, "r") as file:
+        with open(constants.TRAINING_DATA_HASH_PATH, "r", encoding='utf-8') as file:
             return file.read().strip()
-    
+
     def _save_data_hash(self) -> None:
-        with open(constants.TRAINING_DATA_HASH_PATH, "w") as file:
+        with open(constants.TRAINING_DATA_HASH_PATH, "w", encoding='utf-8') as file:
             file.write(self._current_data_hash)
 
     def _rebuild_index(self):

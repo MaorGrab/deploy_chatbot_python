@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from fastapi import FastAPI
 
 from deploy_chatbot_python.chatbot.index_manager import IndexManager
-import deploy_chatbot_python.config.constants as constants
+from deploy_chatbot_python.config import constants
 
 
 class Query(BaseModel):
