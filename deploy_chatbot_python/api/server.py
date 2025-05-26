@@ -10,9 +10,9 @@ class Query(BaseModel):
     text: str
 
 @asynccontextmanager
-async def lifespan(api: FastAPI):
+async def lifespan(api_: FastAPI):
     """This is used to instantiate `IndexManager` once for the entire lifespan of the API"""
-    api.state.index_manager = IndexManager()
+    api_.state.index_manager = IndexManager()
     yield
 
 api = FastAPI(lifespan=lifespan)
