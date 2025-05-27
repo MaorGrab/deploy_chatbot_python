@@ -6,6 +6,7 @@ from dash import Input, Output, State
 import requests
 
 from deploy_chatbot_python.frontend.layout import make_chat_element
+from deploy_chatbot_python.logging.logger_instance import log
 from deploy_chatbot_python.backend.server import Query
 from deploy_chatbot_python.config import constants
 
@@ -70,10 +71,13 @@ class Callbacks:
                     bot_reply = data.get("response", "No response received.")
                 except requests.exceptions.RequestException as e:
                     bot_reply = f"An error occurred: {str(e)}"
+                    log.error(bot_reply)
                 except json.JSONDecodeError:
                     bot_reply = "Received an invalid JSON response from the server."
+                    log.error(bot_reply)
                 except Exception:
                     bot_reply = "An error has occured. Please contact the creator of this Chatbot"
+                    log.error(bot_reply)
                     raise
 
                 # Update the placeholder with the actual bot response
