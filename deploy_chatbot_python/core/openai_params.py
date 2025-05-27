@@ -3,7 +3,7 @@ import os
 import yaml
 
 from deploy_chatbot_python.config.constants import CONFIG_PATH
-from deploy_chatbot_python.logger import logger_
+from deploy_chatbot_python.logger_instance import logger_
 
 
 @dataclass

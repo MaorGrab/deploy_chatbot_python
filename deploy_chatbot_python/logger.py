@@ -31,8 +31,9 @@ class Logger:
     max_bytes: int = 5 * 1024 * 1024
     capture_external: bool = True
 
-    logger_: logging.Logger = field(init=False)
+    logger: logging.Logger = field(init=False)
     log_file: str = field(init=False)
+    
     _instance: ClassVar[Optional["Logger"]] = None
     _initialized: ClassVar[bool] = False
 
@@ -43,15 +44,16 @@ class Logger:
 
     def __post_init__(self):
         if Logger._initialized:
+            print('initialized 66666666666666')
             return
         Logger._initialized = True
         print('logger initialized xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
         self.log_file = os.path.join(self.log_dir, f"{self.name}.log")
         os.makedirs(self.log_dir, exist_ok=True)
 
-        self.logger_ = logging.getLogger(self.name)
-        self.logger_.setLevel(logging.DEBUG)
-        self.logger_.propagate = False
+        self.logger = logging.getLogger(self.name)
+        self.logger.setLevel(logging.DEBUG)
+        self.logger.propagate = False
 
         self._configure_handlers()
 
@@ -70,7 +72,7 @@ class Logger:
         stream_handler = logging.StreamHandler(sys.stdout)
         stream_handler.setLevel(logging.DEBUG)
         stream_handler.setFormatter(color_formatter)
-        self.logger_.addHandler(stream_handler)
+        self.logger.addHandler(stream_handler)
 
         # File handler with rotation
         file_formatter = logging.Formatter(log_format, date_format)
@@ -79,21 +81,20 @@ class Logger:
         )
         file_handler.setLevel(logging.DEBUG)
         file_handler.setFormatter(file_formatter)
-        self.logger_.addHandler(file_handler)
+        self.logger.addHandler(file_handler)
 
     def _capture_external_loggers(self):
         return
         for ext_name in ("uvicorn", "uvicorn.error", "uvicorn.access", "fastapi", "dash"):
             ext_logger = logging.getLogger(ext_name)
-            # for handler in self.logger_.handlers:
-            #     if handler not in ext_logger_.handlers:
+            # for handler in self.logger.handlers:
+            #     if handler not in ext_logger.handlers:
             #         print('added handler', handler.get_name)
-            #         ext_logger_.addHandler(handler)
-            # ext_logger_.setLevel(level)
-            ext_logger_.propagate = True
+            #         ext_logger.addHandler(handler)
+            # ext_logger.setLevel(level)
+            ext_logger.propagate = True
 
-    # def get_logger(self) -> logging.Logger:
-    #     print('fetched zzzzzzzzzzzzzzzzzz')
-    #     return self.logger_
-    
-logger_ = Logger(name='try').logger_
+    @property
+    def get_logger(self) -> logging.Logger:
+        print('fetched zzzzzzzzzzzzzzzzzz')
+        return self.logger

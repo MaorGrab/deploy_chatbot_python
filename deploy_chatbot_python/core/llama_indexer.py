@@ -8,7 +8,7 @@ from llama_index.llms.openai import OpenAI
 
 from deploy_chatbot_python.core.openai_params import OpenAIParams
 from deploy_chatbot_python.config import constants
-from deploy_chatbot_python.logger import logger_
+from deploy_chatbot_python.logger_instance import logger_
 
 
 @dataclass

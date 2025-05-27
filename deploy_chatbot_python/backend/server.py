@@ -5,7 +5,7 @@ from fastapi import FastAPI
 
 from deploy_chatbot_python.core.index_manager import IndexManager
 from deploy_chatbot_python.config import constants
-from deploy_chatbot_python.logger import logger_
+from deploy_chatbot_python.logger_instance import logger_
 
 
 class Query(BaseModel):

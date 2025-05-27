@@ -1,3 +1,0 @@
-from deploy_chatbot_python.logger import Logger
-
-logger_ = Logger(name='in_init').logger_

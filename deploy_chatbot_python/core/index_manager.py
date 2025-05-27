@@ -8,7 +8,7 @@ from llama_index.core.base.response.schema import Response
 
 from deploy_chatbot_python.core.llama_indexer import LlamaIndexer
 from deploy_chatbot_python.config import constants
-from deploy_chatbot_python.logger import logger_
+from deploy_chatbot_python.logger_instance import logger_
 
 
 @dataclass
