@@ -11,27 +11,28 @@ from deploy_chatbot_python.config import constants
 class Launcher:
     def __init__(self) -> None:
         self.processes = {}
-        self.is_windows_os: bool = (platform.system() == "Windows")
+        self.is_windows_os: bool = platform.system() == "Windows"
+
+    @property
+    def _new_process_kwarg(self) -> dict:
+        if self.is_windows_os:
+            return {"creationflags": subprocess.CREATE_NEW_PROCESS_GROUP}
+        return {"start_new_session": True}
 
     def _launch_subprocess(self, cmd: list, name: str) -> None:
         print(f"[INFO] Launching {name}: {' '.join(cmd)}")
-
-        if self.is_windows_os:
-            process = subprocess.Popen(
+        try:
+            process = subprocess.Popen(  # pylint: disable=consider-using-with
                 cmd,
-                creationflags=subprocess.CREATE_NEW_PROCESS_GROUP,
                 stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE
+                stderr=subprocess.PIPE,
+                **self._new_process_kwarg,
             )
-        else:
-            process = subprocess.Popen(
-                cmd,
-                preexec_fn=os.setsid,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE
-            )
-
-        self.processes[name] = process
+            self.processes[name] = process
+        except Exception as e:  # pylint: disable=W0718 # critical on any exception
+            print(f"[ERROR] Failed to launch {name}: {e}")
+            self.stop_all()  # or any custom cleanup
+            raise
 
     def start_api(self) -> None:
         cmd = [
@@ -49,33 +50,33 @@ class Launcher:
         ]
         self._launch_subprocess(cmd, "Dash")
 
-    def start_all(self):
+    def start_all(self) -> None:
         print("[INFO] Starting all servers...")
         self.start_api()
         self.start_dash()
 
-    def stop_all(self):
+    def stop_all(self) -> None:
         print("[INFO] Stopping all servers...")
         for name, process in self.processes.items():
             if process.poll() is None:  # Still running
                 print(f"[INFO] Terminating {name} (PID {process.pid})...")
                 try:
                     self._graceful_stop_process(process)
-                except Exception as e:
+                except Exception as e:  # pylint: disable=W0718 # critical on any exception
                     print(f"[WARN] Could not terminate {name}: {e}")
                     try:
                         process.kill()
-                    except Exception as e:
-                        print(f"[WARN] Could not terminate {name} with `.kill()` as fallback")
+                    except Exception as e_:  # pylint: disable=W0718 # critical on any exception
+                        print(f"[WARN] Could not terminate {name} with `.kill()` fallback: {e_}")
             else:
                 print(f"[INFO] {name} already exited.")
 
     def _graceful_stop_process(self, process: subprocess.Popen) -> None:
+        # pylint: disable=no-member  # available at either on Win or Unix systems, not both
         if self.is_windows_os:
             process.send_signal(signal.CTRL_BREAK_EVENT)
         else:
             os.killpg(os.getpgid(process.pid), signal.SIGTERM)
-
         process.wait(timeout=5)
 
     def _monitor(self) -> None:
@@ -93,7 +94,9 @@ class Launcher:
             self._monitor()
         except KeyboardInterrupt:
             print("\n[INFO] KeyboardInterrupt received. Shutting down...")
-        except Exception as e:
+        except (OSError,ValueError,subprocess.SubprocessError,TimeoutError,PermissionError) as e:
+            print(f"[ERROR] Process management error: {e}")
+        except Exception as e:  # pylint: disable=W0718 # critical on any exception
             print(f"[ERROR] Exception occurred: {e}")
         finally:
             self.stop_all()
