@@ -6,6 +6,8 @@ from dataclasses import dataclass, field
 from logging.handlers import RotatingFileHandler
 from colorama import Fore, Style, init as colorama_init
 
+from deploy_chatbot_python.config import constants
+
 colorama_init(autoreset=True)
 
 
@@ -26,13 +28,12 @@ class _ColorFormatter(logging.Formatter):
 
 @dataclass
 class Logger:
-    name: str = "logger"
-    log_dir: str = "logs"
-    max_bytes: int = 5 * 1024 * 1024
+    name: str
+    level: str = constants.LOGGER_LEVEL
+    max_bytes: int = constants.LOG_FILE_MAX_BYTES
     capture_external: bool = True
 
     logger: logging.Logger = field(init=False)
-    log_file: str = field(init=False)
 
     _instance: ClassVar[Optional["Logger"]] = None
     _initialized: ClassVar[bool] = False
@@ -46,11 +47,10 @@ class Logger:
         if Logger._initialized:
             return
         Logger._initialized = True
-        self.log_file = os.path.join(self.log_dir, f"{self.name}.log")
-        os.makedirs(self.log_dir, exist_ok=True)
+        os.makedirs(constants.LOG_DIR_PATH, exist_ok=True)
 
         self.logger = logging.getLogger(self.name)
-        self.logger.setLevel(logging.DEBUG)
+        self.logger.setLevel(self.level)
         self.logger.propagate = False
 
         self._configure_handlers()
@@ -68,16 +68,16 @@ class Logger:
         # Console handler with colors
         color_formatter = _ColorFormatter(log_format, date_format)
         stream_handler = logging.StreamHandler(sys.stdout)
-        stream_handler.setLevel(logging.DEBUG)
+        stream_handler.setLevel(self.level)
         stream_handler.setFormatter(color_formatter)
         self.logger.addHandler(stream_handler)
 
         # File handler with rotation
         file_formatter = logging.Formatter(log_format, date_format)
         file_handler = RotatingFileHandler(
-            self.log_file, maxBytes=self.max_bytes, backupCount=0, encoding="utf-8"
+            constants.LOG_FILE_PATH, maxBytes=self.max_bytes, backupCount=0, encoding="utf-8"
         )
-        file_handler.setLevel(logging.DEBUG)
+        file_handler.setLevel(self.level)
         file_handler.setFormatter(file_formatter)
         self.logger.addHandler(file_handler)
 

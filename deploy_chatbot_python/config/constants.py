@@ -1,4 +1,5 @@
 from pathlib import Path
+import logging
 
 
 PKG_DIR = Path(__file__).resolve().parent.parent
@@ -27,3 +28,10 @@ BOT_PLACEHOLDER_MESSAGE = 'Typing...'
 USER_PLACEHOLDER_MESSAGE = "Type your message here..."
 SEND_BUTTON_TEXT = 'Send'
 POST_REQUEST_TIMEOUT = 60  # seconds
+
+# Logging
+LOGGER_NAME = 'chatbot'
+LOGGER_LEVEL = logging.DEBUG
+LOG_DIR_PATH = ROOT_DIR / 'logs'
+LOG_FILE_PATH = LOG_DIR_PATH / f'{LOGGER_NAME}.log'
+LOG_FILE_MAX_BYTES = 5 * 1024 * 1024
