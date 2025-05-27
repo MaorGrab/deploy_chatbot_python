@@ -37,7 +37,7 @@ class Launcher:
     def start_api(self) -> None:
         cmd = [
             sys.executable, "-m", "uvicorn",
-            "deploy_chatbot_python.api.run:api",
+            "deploy_chatbot_python.backend.run:api",
             "--host", constants.API_HOST_ADDRESS,
             "--port", str(constants.API_HOST_PORT),
             "--reload"
@@ -46,7 +46,7 @@ class Launcher:
 
     def start_dash(self) -> None:
         cmd = [
-            sys.executable, "-m", "deploy_chatbot_python.app.run"
+            sys.executable, "-m", "deploy_chatbot_python.frontend.run"
         ]
         self._launch_subprocess(cmd, "Dash")
 

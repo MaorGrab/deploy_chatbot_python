@@ -6,7 +6,7 @@ from llama_index.core.base.base_query_engine import BaseQueryEngine
 from llama_index.embeddings.openai import OpenAIEmbedding
 from llama_index.llms.openai import OpenAI
 
-from deploy_chatbot_python.chatbot.openai_params import OpenAIParams
+from deploy_chatbot_python.core.openai_params import OpenAIParams
 from deploy_chatbot_python.config import constants
 
 
