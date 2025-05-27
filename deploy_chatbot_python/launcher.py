@@ -6,7 +6,7 @@ import time
 import platform
 
 from deploy_chatbot_python.config import constants
-from deploy_chatbot_python.logger_instance import logger_
+from deploy_chatbot_python.logging.logger_instance import logger_
 
 
 class Launcher:

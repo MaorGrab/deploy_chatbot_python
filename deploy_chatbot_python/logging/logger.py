@@ -44,10 +44,8 @@ class Logger:
 
     def __post_init__(self):
         if Logger._initialized:
-            print('initialized 66666666666666')
             return
         Logger._initialized = True
-        print('logger initialized xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
         self.log_file = os.path.join(self.log_dir, f"{self.name}.log")
         os.makedirs(self.log_dir, exist_ok=True)
 
@@ -62,7 +60,7 @@ class Logger:
 
     def _configure_handlers(self):
         log_format = (
-            "%(asctime)s | %(levelname)-8s | %(name)s | "
+            "%(asctime)s | %(levelname)-s | %(name)s | "
             "%(filename)s:%(lineno)d | %(message)s"
         )
         date_format = "%Y-%m-%d %H:%M:%S"
@@ -84,17 +82,10 @@ class Logger:
         self.logger.addHandler(file_handler)
 
     def _capture_external_loggers(self):
-        return
         for ext_name in ("uvicorn", "uvicorn.error", "uvicorn.access", "fastapi", "dash"):
             ext_logger = logging.getLogger(ext_name)
-            # for handler in self.logger.handlers:
-            #     if handler not in ext_logger.handlers:
-            #         print('added handler', handler.get_name)
-            #         ext_logger.addHandler(handler)
-            # ext_logger.setLevel(level)
             ext_logger.propagate = True
 
     @property
     def get_logger(self) -> logging.Logger:
-        print('fetched zzzzzzzzzzzzzzzzzz')
         return self.logger
