@@ -1,4 +1,8 @@
-from deploy_chatbot_python import ROOT_DIR, PKG_DIR
+from pathlib import Path
+
+
+PKG_DIR = Path(__file__).resolve().parent.parent
+ROOT_DIR = PKG_DIR.parent
 
 # Data paths
 DATA_PATH = ROOT_DIR / 'data'
