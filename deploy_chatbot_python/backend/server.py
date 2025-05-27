@@ -5,6 +5,7 @@ from fastapi import FastAPI
 
 from deploy_chatbot_python.core.index_manager import IndexManager
 from deploy_chatbot_python.config import constants
+from deploy_chatbot_python.logger import logger_
 
 
 class Query(BaseModel):
@@ -25,4 +26,5 @@ async def read_root():
 @api.post(f"/{constants.API_POST_ENDPOINT}")
 async def post_query(query: Query):
     response = api.state.index_manager.query(query.text)
+    logger_.debug('fetched response')
     return {"response": response}

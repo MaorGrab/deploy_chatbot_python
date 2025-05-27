@@ -3,6 +3,7 @@ import os
 import yaml
 
 from deploy_chatbot_python.config.constants import CONFIG_PATH
+from deploy_chatbot_python.logger import logger_
 
 
 @dataclass
@@ -25,3 +26,4 @@ class OpenAIParams:
         api_key = os.getenv("OPENAI_API_KEY")
         if api_key is None:
             raise ValueError("API key not found. Please set `OPENAI_API_KEY` env variable.")
+        logger_.debug('OPENAI_API_KEY was fetched from environment variables.')
