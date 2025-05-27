@@ -3,7 +3,7 @@ from contextlib import asynccontextmanager
 from pydantic import BaseModel
 from fastapi import FastAPI
 
-from deploy_chatbot_python.chatbot.index_manager import IndexManager
+from deploy_chatbot_python.core.index_manager import IndexManager
 from deploy_chatbot_python.config import constants
 
 

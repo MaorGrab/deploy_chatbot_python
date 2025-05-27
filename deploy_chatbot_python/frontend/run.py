@@ -1,8 +1,8 @@
 import dash
 import dash_bootstrap_components as dbc
 
-from deploy_chatbot_python.app.callbacks import Callbacks
-from deploy_chatbot_python.app.layout import layout
+from deploy_chatbot_python.frontend.callbacks import Callbacks
+from deploy_chatbot_python.frontend.layout import layout
 from deploy_chatbot_python.config import constants
 
 # Initialize the Dash app with Bootstrap theme

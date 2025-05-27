@@ -1,6 +1,6 @@
 [project]
 name = "deploy_chatbot_python"
-version = "0.3"
+version = "0.4"
 description = "A chatbot project using Llama indexing and OpenAI"
 authors = [
     { name="Maor Grab", email="maor.grab@gmail.com" }

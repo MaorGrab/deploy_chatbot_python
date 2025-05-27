@@ -5,8 +5,8 @@ import dash
 from dash import Input, Output, State
 import requests
 
-from deploy_chatbot_python.app.layout import make_chat_element
-from deploy_chatbot_python.api.server import Query
+from deploy_chatbot_python.frontend.layout import make_chat_element
+from deploy_chatbot_python.backend.server import Query
 from deploy_chatbot_python.config import constants
 
 

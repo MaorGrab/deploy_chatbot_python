@@ -6,7 +6,7 @@ from dataclasses import dataclass, field
 from llama_index.core import StorageContext, load_index_from_storage
 from llama_index.core.base.response.schema import Response
 
-from deploy_chatbot_python.chatbot.llama_indexer import LlamaIndexer
+from deploy_chatbot_python.core.llama_indexer import LlamaIndexer
 from deploy_chatbot_python.config import constants
 
 @dataclass
