@@ -6,7 +6,7 @@ import time
 import platform
 
 from deploy_chatbot_python.config import constants
-from deploy_chatbot_python.logging.logger_instance import logger_
+from deploy_chatbot_python.logging.logger_instance import log
 
 
 class Launcher:
@@ -24,7 +24,7 @@ class Launcher:
         return {"start_new_session": True}
 
     def _launch_subprocess(self, cmd: list, name: str) -> None:
-        logger_.info('Launcing process %s: \n%s\n', name, ' '.join(cmd))
+        log.info('Launcing process %s: \n%s\n', name, ' '.join(cmd))
         try:
             process = subprocess.Popen(  # pylint: disable=consider-using-with
                 cmd,
@@ -33,9 +33,9 @@ class Launcher:
                 **self._new_process_kwarg,
             )
             self.processes[name] = process
-            logger_.info('process %s was launched successfully', name)
+            log.info('process %s was launched successfully', name)
         except Exception as e:  # pylint: disable=W0718 # critical on any exception
-            logger_.error('Failed to launch %s: %s', name, e)
+            log.error('Failed to launch %s: %s', name, e)
             self.stop_all()  # or any custom cleanup
             raise
 
@@ -56,25 +56,25 @@ class Launcher:
         self._launch_subprocess(cmd, "Dash")
 
     def start_all(self) -> None:
-        logger_.info('Starting all servers')
+        log.info('Starting all servers')
         self.start_api()
         self.start_dash()
 
     def stop_all(self) -> None:
-        logger_.info('Stopping all servers...')
+        log.info('Stopping all servers...')
         for name, process in self.processes.items():
             if process.poll() is None:  # Still running
-                logger_.info('Terminating process %s (PID: %s) ...', name, process.pid)
+                log.info('Terminating process %s (PID: %s) ...', name, process.pid)
                 try:
                     self._graceful_stop_process(process)
                 except Exception as e:  # pylint: disable=W0718 # critical on any exception
-                    logger_.warning('Could not terminate process %s: %s', name, e)
+                    log.warning('Could not terminate process %s: %s', name, e)
                     try:
                         process.kill()
                     except Exception as e_:  # pylint: disable=W0718 # critical on any exception
-                        logger_.error('Could not terminate process %s with `.kill()`: %s', name, e)
+                        log.error('Could not terminate process %s with `.kill()`: %s', name, e_)
             else:
-                logger_.info('Process %s already exited', name)
+                log.info('Process %s already exited', name)
 
     def _graceful_stop_process(self, process: subprocess.Popen) -> None:
         # pylint: disable=no-member  # available at either on Win or Unix systems, not both
@@ -83,7 +83,7 @@ class Launcher:
         else:
             os.killpg(os.getpgid(process.pid), signal.SIGTERM)
         process.wait(timeout=5)
-        logger_.info('Process (PID: %s) gracefully stopped', process.pid)
+        log.info('Process (PID: %s) gracefully stopped', process.pid)
 
     def _monitor(self) -> None:
         """Monitor subprocesses for failure."""
@@ -99,10 +99,10 @@ class Launcher:
             self.start_all()
             self._monitor()
         except KeyboardInterrupt:
-            logger_.info("KeyboardInterrupt received. Shutting down...")
+            log.info("KeyboardInterrupt received. Shutting down...")
         except (OSError,ValueError,subprocess.SubprocessError,TimeoutError,PermissionError) as e:
-            logger_.error("Process management error: %s", e)
+            log.error("Process management error: %s", e)
         except Exception as e:  # pylint: disable=W0718 # critical on any exception
-            logger_.error("Exception occurred: %s", e)
+            log.error("Exception occurred: %s", e)
         finally:
             self.stop_all()

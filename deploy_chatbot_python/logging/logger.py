@@ -82,8 +82,14 @@ class Logger:
         self.logger.addHandler(file_handler)
 
     def _capture_external_loggers(self):
-        for ext_name in ("uvicorn", "uvicorn.error", "uvicorn.access", "fastapi", "dash"):
-            ext_logger = logging.getLogger(ext_name)
+        all_external_loggers_names = logging.Logger.manager.loggerDict.keys()
+        for ext_logger_name in ("uvicorn", "uvicorn.error", "uvicorn.access", "fastapi", "dash"):
+            if ext_logger_name not in all_external_loggers_names:
+                continue
+            ext_logger = logging.getLogger(ext_logger_name)
+            for handler in self.logger.handlers:
+                if handler not in ext_logger.handlers:
+                    ext_logger.addHandler(handler)
             ext_logger.propagate = True
 
     @property

@@ -8,7 +8,7 @@ from llama_index.llms.openai import OpenAI
 
 from deploy_chatbot_python.core.openai_params import OpenAIParams
 from deploy_chatbot_python.config import constants
-from deploy_chatbot_python.logging.logger_instance import logger_
+from deploy_chatbot_python.logging.logger_instance import log
 
 
 @dataclass
@@ -25,7 +25,7 @@ class LlamaIndexer:
     def _initialize_models_from_params(self, params: OpenAIParams) -> None:
         self.llm = OpenAI(model=params.model, temperature=params.temperature)
         self.embedding_model = OpenAIEmbedding(model=params.embedding_model)
-        logger_.info('Initialized Llama indexer [LLM: %s | Embedding Model: %s]',
+        log.info('Initialized Llama indexer [LLM: %s | Embedding Model: %s]',
                     self.llm.model, self.embedding_model.model_name)
 
     def build_query_pipeline(self) -> None:
@@ -41,15 +41,15 @@ class LlamaIndexer:
             documents=documents,
             embed_model=self.embedding_model,
         )
-        logger_.debug('Built index')
+        log.debug('Built index')
 
     def set_query_engine(self) -> None:
         if self.index is None:
             raise ValueError("Index is invalid.")
         if self.query_engine is not None:
-            logger_.debug('Query engine is already set')
+            log.debug('Query engine is already set')
         self.query_engine = self.index.as_query_engine(llm=self.llm)
-        logger_.debug('Built query engine')
+        log.debug('Built query engine')
 
 
 if __name__ == "__main__":

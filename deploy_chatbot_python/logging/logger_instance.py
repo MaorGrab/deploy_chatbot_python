@@ -8,4 +8,4 @@ def get_logger(name: str):
     logger = Logger(name=name).get_logger
     return logger
 
-logger_ = get_logger(name='logger_name')
+log = get_logger(name='logname')
