@@ -33,11 +33,11 @@ class Logger:
 
     logger: logging.Logger = field(init=False)
     log_file: str = field(init=False)
-    
+
     _instance: ClassVar[Optional["Logger"]] = None
     _initialized: ClassVar[bool] = False
 
-    def __new__(cls, *args, **kwargs):
+    def __new__(cls, *args, **kwargs):  # pylint: disable=unused-argument
         if cls._instance is None:
             cls._instance = super().__new__(cls)
         return cls._instance
