@@ -1,7 +1,5 @@
-from dotenv import load_dotenv
 from deploy_chatbot_python.launcher import Launcher
-
-load_dotenv()  # load OpenAI API key from .env file
+import deploy_chatbot_python.utils.load_env  # pylint: disable=unused-import
 
 
 def main() -> None:
