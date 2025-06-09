@@ -24,50 +24,55 @@ The chatbot is capable of answering user questions based on your own local data 
 
 ```
 
-deploy_chatbot_python/
-├── __main__.py                # Entry point - main script
-├── launcher.py                # Launches full stack (API, frontend, etc.)
+deploy_chatbot_python/               # Root of your Git repository
+├── data/                            # Training data
+│   └── training/
+│       └── chatbot_data.txt         # Sample data for demonstration
+|
+├── deploy_chatbot_python/           # Python package
+│   ├── __main__.py                  # Entry point - main script
+│   ├── launcher.py                  # Launches full stack (API, frontend, etc.)
+│   │
+│   ├── backend/                     # FastAPI backend
+│   │   ├── run.py                   # Server runner
+│   │   └── server.py                # API logic
+│   │
+│   ├── config/                      # Configuration
+│   │   ├── config.yaml              # Core model settings
+│   │   └── constants.py             # Shared constants
+│   │
+│   ├── core/                        # Core logic for indexing and querying
+│   │   ├── index_manager.py         # Hash-based index validation and management
+│   │   ├── llama_indexer.py         # LlamaIndex setup and pipeline
+│   │   └── openai_params.py         # OpenAI configuration structure
+│   │
+│   ├── frontend/                    # Dashboard
+│   │   ├── callbacks.py             # Dashboard callbacks
+│   │   ├── layout.py                # UI layout
+│   │   └── run.py                   # Launch dashboard
+│   │
+│   ├── logging/                     # Centralized logging
+│   │   ├── logger.py                # Logger setup
+│   │   └── logger_instance.py       # Shared logger instance
+│   │
+│   └── utils/                       # Utilities
+│       └── load_env.py             # Load environment variables (i.e. API key)
 │
-├── backend/                   # FastAPI backend
-│   ├── run.py                 # Server runner
-│   └── server.py              # API logic
+├── tests/                           # Tests (outside the package)
+│   ├── test_backend.py              # FastAPI tests
+│   └── test_core_query.py           # Integration test of query engine
 │
-├── config/                    # Configuration
-│   ├── config.yaml            # Core model settings
-│   └── constants.py           # Shared constants
-│
-├── core/                      # Core logic for indexing and querying
-│   ├── index_manager.py       # Hash-based index validation and management
-│   ├── llama_indexer.py       # LlamaIndex setup and pipeline
-│   └── openai_params.py       # OpenAI configuration structure
-│
-├── frontend/                  # Dashboard
-│   ├── callbacks.py           # Dashboard callbacks
-│   ├── layout.py              # UI layout
-│   └── run.py                 # Launch dashboard
-│
-├── logging/                   # Centralized logging
-│   ├── logger.py              # Logger setup
-│   └── logger_instance.py     # Shared logger instance
-│
-├── utils/                     # Utilities
-│   └── load_env.py            # Load environment variables (i.e. API key)
-
-├── data/
-│   └── training/              # Input training data (e.g., txt)
-│        └── chatbot_data.txt  # Sample data for demostration. One should place relevant data here [!]
-│
-└── tests/
-    ├── test_backend.py        # FastAPI tests
-    └── test_core_query.py     # Integration test of query engine
-
+└── docs/                            # Documentation
+    ├── README.md                    # Project-specific documentation
+    └── sample_image.png             
+ 
 ```
 
 Other project files:
 - `pyproject.toml`: Build system management.
 - `requirements.txt`: dependency management.
 - `pytest.ini`: Test runner config.
-- `README.md`, `LICENSE`
+- `LICENSE`
 
 ---
 ## 🧠 How It Works
