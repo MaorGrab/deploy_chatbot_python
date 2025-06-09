@@ -5,6 +5,7 @@ llama-index
 sentence_transformers
 pylint
 pytest
+pytest-asyncio
 fastapi
 uvicorn
 dash
