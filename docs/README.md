@@ -4,6 +4,8 @@ This repository contains a **Retrieval-Augmented Generation (RAG)** based chatbo
 
 The chatbot is capable of answering user questions based on your own local data via a user-friendly web dashboard.
 
+![](sample_image.png)
+
 ---
 
 ## 🚀 Features
