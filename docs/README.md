@@ -121,6 +121,33 @@ You should now see the chatbot interface and use it!
 
 ---
 
+## 🔧 Configurations
+
+The `config/config.yaml` file contains runtime settings used to configure the behavior of the chatbot, especially its interaction with OpenAI's models. This file enables easy tuning of key parameters without modifying the codebase.
+
+#### Example Structure (Default):
+
+```yaml
+openai:
+  model: gpt-4o-mini
+  embedding_model: text-embedding-3-small
+  temperature: 0.1
+```
+
+#### Description of Fields:
+
+* `model`: Specifies the OpenAI language model used for generating chatbot responses (e.g., `gpt-4o-mini`, `gpt-4`, etc.).
+* `embedding_model`: Defines the model used to generate vector embeddings for text inputs, typically used in retrieval and indexing (e.g., `text-embedding-3-small`).
+* `temperature`: Controls the creativity of the model's output. Lower values (e.g. `0.1`) make the responses more focused and deterministic; higher values make them more varied and creative.
+
+> 💡 Modify this YAML to switch models, adjust response style, or integrate newer API versions—without touching the Python code.
+
+---
+
 ## 📄 License
 
 This project is licensed under the terms of the MIT license.
+
+Here’s a section you can add to your `README.md` to explain the `config/config.yaml` file:
+
+---
