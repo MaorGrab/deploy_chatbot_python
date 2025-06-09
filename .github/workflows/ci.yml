@@ -97,6 +97,8 @@ jobs:
   test:
       needs: build
       runs-on: ubuntu-latest
+      env:
+        OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       steps:
         - name: Checkout code
           uses: actions/checkout@v3
