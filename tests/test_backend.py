@@ -1,5 +1,4 @@
 import pytest
-import pytest-asyncio
 from fastapi.testclient import TestClient
 from deploy_chatbot_python.backend.server import api, Query
 from deploy_chatbot_python.config import constants
