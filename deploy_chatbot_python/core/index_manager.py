@@ -1,8 +1,8 @@
 import os
 import json
 import hashlib
-from typing import Union
 from dataclasses import dataclass, field
+
 from llama_index.core import StorageContext, load_index_from_storage
 from llama_index.core.base.response.schema import Response
 
@@ -14,7 +14,7 @@ from deploy_chatbot_python.logging.logger_instance import log
 @dataclass
 class IndexManager:
     llama_indexer: LlamaIndexer = field(default_factory=LlamaIndexer, init=False)
-    _current_data_hash: Union[str, None] = field(default=None, init=False)
+    _current_data_hash: str = field(default='', init=False)
 
     def __post_init__(self):
         self._initialize()
